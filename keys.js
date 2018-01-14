@@ -1,13 +1,17 @@
-console.log('this is loaded');
+console.log('Keys.js loaded');
+
+var Twitter = require('twitter');
+
+var Spotify = require('node-spotify-api');
 
 exports.twitter = {
-  consumer_key: 'X8qOOMqFh67Yh0OASSm04wZYG',
-  consumer_secret: '77VMgDLi3VWgyQsk0RTZq04eBOE8M9UIuhGY7B2HOCQNctRQSc',
-  access_token_key: '952253267580506117-mndPG7oadiBinrrGlc1O27xrb1IvN6W',
-  access_token_secret: 'Rty0BbsxLHfdbYDAKTCF0xVSdew8YtU5V3yWjgwjl9hFr'
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 };
 
-exports.spotify = {
-  id: '9b9666f175b5458786128f0085a59a18',
-  secret: 'edf8d567104b4bcea127e3f5f583c14b',
-};
+exports.Spotify = new Spotify ({
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
+});

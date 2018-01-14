@@ -6,17 +6,14 @@ var dotenv = require('dotenv').config()
 // fs Node Package
 var fs = require('fs');
 
-// Twitter Node Package
-var Twitter = require('twitter');
-
-// Spotify Node Package
-var Spotify = require('node-spotify-api');
-
 // Request Node Package
 var request = require('request');
 
 // Key linkup
 var keys = require('./keys');
+
+// Spotify Key
+var spotVar = keys.spotifykeys;
 
 // argv variables
 var nodeArgv = process.argv;
@@ -82,7 +79,7 @@ switch(request){
 
 // Spotify Function
 function spotifyFunc (song){
-  spotify.search({ type: 'track', query: song }, function(err, data) {
+  spotVar.search({ type: 'track', query: song }, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
@@ -97,18 +94,6 @@ function spotifyFunc (song){
     }
   })
 }
- // show the following information about the song in your terminal/bash window
-     
-  //   * Artist(s)
-     
-  //   * The song's name
-  
-  //   * A preview link of the song from Spotify
-  
-  //   * The album that the song is from
-
-  //   * If no song is provided then your program will default to "The Sign" by Ace of Base.
-
 // omdb Data Function
 
 // do-what-it-says
