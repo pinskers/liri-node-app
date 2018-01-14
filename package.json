@@ -2,7 +2,7 @@
   "name": "liri-node-app",
   "version": "1.0.0",
   "description": "LIRI Homework Assignment for Coding Bootcamp (probably incomplete due to me being out of the country)",
-  "main": "index.js",
+  "main": "keys.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/pinskers/liri-node-app/issues"
   },
-  "homepage": "https://github.com/pinskers/liri-node-app#readme"
+  "homepage": "https://github.com/pinskers/liri-node-app#readme",
+  "dependencies": {
+    "dot-env": "0.0.1",
+    "dotenv": "^4.0.0",
+    "fs": "0.0.1-security",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.83.0",
+    "twitter": "^1.7.1"
+  }
 }

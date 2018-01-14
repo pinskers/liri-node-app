@@ -3,6 +3,9 @@
 // DotEnv Node Package
 var dotenv = require('dotenv').config()
 
+// fs Node Package
+var fs = require('fs');
+
 // Twitter Node Package
 var Twitter = require('twitter');
 
@@ -13,15 +16,21 @@ var Spotify = require('node-spotify-api');
 var request = require('request');
 
 // Key linkup
-var keys = require("keys");
+var keys = require('./keys');
+
+// argv variables
+var nodeArgv = process.argv;
+var request = process.argv [2];
+
+// We'll probably need something here to process songs with more than one word?
 
 // LOGIC
-switch(command){
-  case: "my-tweets";
+switch(request){
+  case "my-tweets":
   // show your last 20 tweets and when they were created at in your terminal/bash window
   break;
 
-  case: "spotify-this-song";
+  case "spotify-this-song":
   // show the following information about the song in your terminal/bash window
      
   //   * Artist(s)
@@ -35,7 +44,7 @@ switch(command){
   //   * If no song is provided then your program will default to "The Sign" by Ace of Base.
   break;
 
-  case: "movie-this";
+  case "movie-this":
   //    output the following information to your terminal/bash window:
 
   //     * Title of the movie.
@@ -48,9 +57,9 @@ switch(command){
   //     * Actors in the movie.
 
   //   * If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
-  //   break;
+  break;
 
-  case: "do-what-it-says";
+  case "do-what-it-says":
   // Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
      
   //    * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
@@ -62,3 +71,13 @@ switch(command){
   console.log ("Please enter one of the following commands:\nmy-tweets\nspotify-this-song\nmovie-this\ndo-what-it-says");
   break;
 }
+
+// FUNCTIONS
+
+// Twitter Function
+
+// Spotify Function
+
+// omdb Data Function
+
+// do-what-it-says Function
