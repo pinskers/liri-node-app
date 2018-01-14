@@ -22,6 +22,18 @@ var keys = require('./keys');
 var nodeArgv = process.argv;
 var request = process.argv [2];
 
+// Movie or song
+var movieSong = "";
+
+// For multi-word argvs (Had to look this up)
+for (var i=3; i<nodeArgv.length; i++){
+  if(i>3 && i<nodeArgv.length){
+    x = movieSong + "+" + nodeArgv[i];
+  } else{
+    x = movieSong + nodeArgv[i];
+  }
+}
+
 // We'll probably need something here to process songs with more than one word?
 
 // LOGIC
@@ -31,17 +43,7 @@ switch(request){
   break;
 
   case "spotify-this-song":
-  // show the following information about the song in your terminal/bash window
-     
-  //   * Artist(s)
-     
-  //   * The song's name
-  
-  //   * A preview link of the song from Spotify
-  
-  //   * The album that the song is from
-
-  //   * If no song is provided then your program will default to "The Sign" by Ace of Base.
+  spotifyFunc();
   break;
 
   case "movie-this":
@@ -68,8 +70,10 @@ switch(request){
   break;
 
   default:
-  console.log ("Please enter one of the following commands:\nmy-tweets\nspotify-this-song\nmovie-this\ndo-what-it-says");
+  console.log ("Please enter one of the following:\nmy-tweets\nspotify-this-song\nmovie-this\ndo-what-it-says");
   break;
+
+  // ^^^ Redo this as Inquirer if given the time... ^^^
 }
 
 // FUNCTIONS
@@ -77,7 +81,34 @@ switch(request){
 // Twitter Function
 
 // Spotify Function
+function spotifyFunc (song){
+  spotify.search({ type: 'track', query: song }, function(err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
+    else{
+      for(var i = 0; i <data.tracks.items.length; i++){
+        var spotifyData = data.tracks.items[i];
+        console.log("Artist: " + spotifyData.artists[0].name +
+        "\nSong: " + spotifyData.name +
+        "\n Preview:" + spotifyData.previewURL + 
+        "\nAlbum: " + spotifyData.album.name);
+      }
+    }
+  })
+}
+ // show the following information about the song in your terminal/bash window
+     
+  //   * Artist(s)
+     
+  //   * The song's name
+  
+  //   * A preview link of the song from Spotify
+  
+  //   * The album that the song is from
+
+  //   * If no song is provided then your program will default to "The Sign" by Ace of Base.
 
 // omdb Data Function
 
-// do-what-it-says Function
+// do-what-it-says
