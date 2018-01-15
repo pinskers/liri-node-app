@@ -1,23 +1,22 @@
-// VARIABLES
+// --------- VARIABLES ---------
 
 // DotEnv Node Package
-var dotenv = require('dotenv').config()
+var dotenv = require("dotenv").config()
 
 // fs Node Package
-var fs = require('fs');
+var fs = require("fs");
 
 // Request Node Package
-var request = require('request');
+var request = require("request");
 
 // Key linkup
-var keys = require('./keys.js');
+var keys = require("./keys.js");
 
 // Spotify Key
-// var spotify = new spotify(keys.spotifykeys);
+var spotify = require('node-spotify-api');
 
 // Twitter Key
-var twitter = require('twitter');
-var client = new twitter(keys.twitterKeys);
+var twitter = require("twitter");
 
 // argv variables
 var nodeArgv = process.argv;
@@ -35,7 +34,7 @@ for (var i=3; i<nodeArgv.length; i++){
   }
 }
 
-// LOGIC
+// --------- LOGIC ---------
 switch(request){
   case "my-tweets":
   twitterFunc();
@@ -75,40 +74,49 @@ switch(request){
   // ^^^ Redo this as Inquirer if given the time... ^^^
 }
 
-// FUNCTIONS
+// --------- FUNCTIONS ---------
 
 // Twitter Function -- CURRENTLY THROWS ERROR --
 function twitterFunc(){
-  var tweeter = {screen_name: 'eso_bob'};
-  client.get('statuses/user_timeline', tweeter, function(error, tweets, response) {
+  var client = new twitter(keys.twitterKeys);
+  var tweeter = {screen_name: "eso_bob"};
+  client.get("statuses/user_timeline", tweeter, function(error, tweets, response) {
     if (error) {
-      console.log('An error has occurred. :(');
+      console.log("Error occurred: " + error);
     }
     else
-      {
-        // Loop through tweets
-        for(var i = 0; i<tweets.length; i++){
-          var date = tweets[i].created_at;
-          console.log(tweets[i].text + " " + date.substring(0, 19)); // Stop at 20 tweets
-      }
+    {
+    // Loop through tweets
+    var dataArray = [];
+    for(var i = 0; i<tweets.length; i++){
+      dataArray.push({
+        "Created:" : tweets[i].created_at,
+        "Tweet:" : tweets[i].text,
+      });
     }
-  })
+    console.log(dataArray);
+  }
+});
 }
 
 // Spotify Function -- CURRENTLY NONFUNCTIONAL --
 function spotifyFunc(song){
-  spotify.search({ type: 'track', query: song }, function(err, data) {
+  var spotify = new spotify(keys.spotifykeys);
+  spotify.search({ type: "track", query: song }, function(err, data) {
     if (err) {
-      return console.log('Error occurred: ' + err);
+      return console.log("Error occurred: " + err);
     }
-    for(var i = 0; i <data.tracks.items.length; i++){
-      var spotifyData = data.tracks.items[i];
-      console.log("Artist: " + spotifyData.artists[0].name +
-      "\nSong: " + spotifyData.name +
-      "\n Preview:" + spotifyData.previewURL + 
-      "\nAlbum: " + spotifyData.album.name);
-    }
-  })
+    else
+    {
+      for(var i = 0; i <data.tracks.items.length; i++){
+        var spotifyData = data.tracks.items[i];
+        console.log("Artist: " + spotifyData.artists[0].name +
+        "\nSong: " + spotifyData.name +
+        "\n Preview:" + spotifyData.previewURL + 
+        "\nAlbum: " + spotifyData.album.name);
+      }
+  }
+})
 }
 // omdb Data Function
 
