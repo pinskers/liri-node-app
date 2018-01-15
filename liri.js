@@ -10,10 +10,14 @@ var fs = require('fs');
 var request = require('request');
 
 // Key linkup
-var keys = require('./keys');
+var keys = require('./keys.js');
 
 // Spotify Key
-var spotVar = keys.spotifykeys;
+// var spotify = new spotify(keys.spotifykeys);
+
+// Twitter Key
+var twitter = require('twitter');
+var client = new twitter(keys.twitterKeys);
 
 // argv variables
 var nodeArgv = process.argv;
@@ -31,12 +35,10 @@ for (var i=3; i<nodeArgv.length; i++){
   }
 }
 
-// We'll probably need something here to process songs with more than one word?
-
 // LOGIC
 switch(request){
   case "my-tweets":
-  // show your last 20 tweets and when they were created at in your terminal/bash window
+  twitterFunc();
   break;
 
   case "spotify-this-song":
@@ -75,22 +77,36 @@ switch(request){
 
 // FUNCTIONS
 
-// Twitter Function
+// Twitter Function -- CURRENTLY THROWS ERROR --
+function twitterFunc(){
+  var tweeter = {screen_name: 'eso_bob'};
+  client.get('statuses/user_timeline', tweeter, function(error, tweets, response) {
+    if (error) {
+      console.log('An error has occurred. :(');
+    }
+    else
+      {
+        // Loop through tweets
+        for(var i = 0; i<tweets.length; i++){
+          var date = tweets[i].created_at;
+          console.log(tweets[i].text + " " + date.substring(0, 19)); // Stop at 20 tweets
+      }
+    }
+  })
+}
 
-// Spotify Function
-function spotifyFunc (song){
-  spotVar.search({ type: 'track', query: song }, function(err, data) {
+// Spotify Function -- CURRENTLY NONFUNCTIONAL --
+function spotifyFunc(song){
+  spotify.search({ type: 'track', query: song }, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    else{
-      for(var i = 0; i <data.tracks.items.length; i++){
-        var spotifyData = data.tracks.items[i];
-        console.log("Artist: " + spotifyData.artists[0].name +
-        "\nSong: " + spotifyData.name +
-        "\n Preview:" + spotifyData.previewURL + 
-        "\nAlbum: " + spotifyData.album.name);
-      }
+    for(var i = 0; i <data.tracks.items.length; i++){
+      var spotifyData = data.tracks.items[i];
+      console.log("Artist: " + spotifyData.artists[0].name +
+      "\nSong: " + spotifyData.name +
+      "\n Preview:" + spotifyData.previewURL + 
+      "\nAlbum: " + spotifyData.album.name);
     }
   })
 }

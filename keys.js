@@ -1,7 +1,5 @@
 console.log('Keys.js loaded');
 
-var Twitter = require('twitter');
-
 var Spotify = require('node-spotify-api');
 
 exports.twitter = {
@@ -11,7 +9,7 @@ exports.twitter = {
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 };
 
-exports.Spotify = new Spotify ({
+exports.Spotify = {
   id: process.env.SPOTIFY_ID,
   secret: process.env.SPOTIFY_SECRET
-});
+};
