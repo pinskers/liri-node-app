@@ -11,9 +11,10 @@ var request = require("request");
 
 // Key linkup
 var keys = require("./keys.js");
+console.log(keys);
 
 // Spotify Key
-var spotify = require('node-spotify-api');
+var Spotify = require('node-spotify-api');
 
 // Twitter Key
 var twitter = require("twitter");
@@ -28,9 +29,9 @@ var movieSong = "";
 // For multi-word argvs (Had to look this up)
 for (var i=3; i<nodeArgv.length; i++){
   if(i>3 && i<nodeArgv.length){
-    x = movieSong + "+" + nodeArgv[i];
+    movieSong = movieSong + "+" + nodeArgv[i];
   } else{
-    x = movieSong + nodeArgv[i];
+    movieSong = movieSong + nodeArgv[i];
   }
 }
 
@@ -41,7 +42,7 @@ switch(request){
   break;
 
   case "spotify-this-song":
-  spotifyFunc();
+  spotifyFunc(movieSong);
   break;
 
   case "movie-this":
@@ -78,11 +79,11 @@ switch(request){
 
 // Twitter Function -- CURRENTLY THROWS ERROR --
 function twitterFunc(){
-  var client = new twitter(keys.twitterKeys);
+  var client = new twitter(keys.twitter);
   var tweeter = {screen_name: "eso_bob"};
   client.get("statuses/user_timeline", tweeter, function(error, tweets, response) {
     if (error) {
-      console.log("Error occurred: " + error);
+      console.log("Error occurred: " + JSON.stringify(error));
     }
     else
     {
@@ -101,7 +102,8 @@ function twitterFunc(){
 
 // Spotify Function -- CURRENTLY NONFUNCTIONAL --
 function spotifyFunc(song){
-  var spotify = new spotify(keys.spotifykeys);
+  console.log(song);
+  var spotify = new Spotify(keys.Spotify);
   spotify.search({ type: "track", query: song }, function(err, data) {
     if (err) {
       return console.log("Error occurred: " + err);
